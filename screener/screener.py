@@ -19,9 +19,14 @@ class Screener:
         if self.model is None:
             self.logger.error("The model is not exist. Please check your model name")
 
-    def get_recommend_stock(self):
+    def get_recommend_stock(self, print_cols=['code', 'cmp_nm_kor', 'pred', 'reason_in']):
         today = datetime.date.today().strftime('%Y-%m-%d')
         in_df = self._recomm_item_crawl(today.replace('-', ''))
+
+        if len(in_df) == 0:
+            self.logger.info("There are no recommended items in Naver today.")
+            return None
+
         in_df = in_df.drop_duplicates(['cmp_cd'])
         crawl_df = pd.DataFrame([])
         for _, row in in_df.iterrows():
@@ -40,19 +45,13 @@ class Screener:
 
         # predict
         result_df['pred'] = self._predict_stock(result_df)
-        return result_df
+        return result_df[print_cols]
 
     def _load_model(self, model_name):
         model = None
         with open(f'./models/{model_name}.pkl', 'rb') as f:
             model = pickle.load(f)
         return model
-
-    def _recomm_item_crawl(self, date):
-        self.logger.debug('=== item crawling start ===')
-        ri = recommendation_item.RecommendationItem(self.logger, delay=0.1)
-        df = ri.crawl_daily_item(date, date)
-        return df
 
     def _predict_stock(self, metric_df):
         x = metric_df[['PER', 'PBR', 'PSR', 'PCR', 'ROE', 'EV/EBITDA']]
@@ -61,6 +60,12 @@ class Screener:
         pred_y = self.model.predict(X_real)
         pred_y = np.asarray([np.argmax(line) for line in pred_y])[0]
         return pred_y
+
+    def _recomm_item_crawl(self, date):
+        self.logger.debug('=== item crawling start ===')
+        ri = recommendation_item.RecommendationItem(self.logger, delay=0.1)
+        df = ri.crawl_daily_item(date, date)
+        return df
 
     def _price_crawl(self, company, date=None):
         self.logger.debug('=== price crawling start ===')
