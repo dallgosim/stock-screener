@@ -38,7 +38,7 @@ class RecommendationItem:
         self.delay = delay
 
     def __crawl(self, date, proc=1):
-        self.logger.info(f'RecommendationItem crawling {proc} : {date}')
+        self.logger.debug(f'RecommendationItem crawling {proc} : {date}')
 
         self.param['startDt'] = date
         self.param['endDt'] = date
@@ -56,7 +56,7 @@ class RecommendationItem:
                 item_df = pd.concat([item_df, res])
                 max_page = int(res['TOTROW'].values[0])
             curr_page += 1
-        self.logger.info(f'RecommendationItem crawl complete {proc}: {date} ({len(item_df)})')
+        self.logger.debug(f'RecommendationItem crawl complete {proc}: {date} ({len(item_df)})')
 
         timer.random_sleep(min_delay=self.delay)
         item_df.columns = map(str.lower, item_df.columns)

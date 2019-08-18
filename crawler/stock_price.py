@@ -64,5 +64,5 @@ class StockPrice:
 
         stock_df = stock_df.head(1)
         stock_df['code'] = cmp_cd
-        self.logger.info(f'''{cmp_cd}'s price length : {(len(stock_df))}''')
+        self.logger.debug(f'''{cmp_cd}'s price length : {(len(stock_df))}''')
         return stock_df

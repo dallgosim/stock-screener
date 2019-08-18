@@ -29,7 +29,7 @@ class MetricCrawler:
         self.delay = delay
 
     def crawl_fnguide(self, cmp_cd):
-        self.logger.info(f'Fnguide crawling start')
+        self.logger.debug(f'Fnguide crawling start')
 
         header = {
             'Host': 'comp.fnguide.com',
@@ -75,8 +75,8 @@ class MetricCrawler:
         try:
             df_result = df_result[['code', 'EPS', 'CFPS', 'BPS', 'SPS', 'EV/EBITDA', 'ROE']]
         except KeyError:
-            self.logger.info(f"{df_result[['code']]}, KeyError : ['EV/EBITDA'] not in index")
+            self.logger.debug(f"{df_result[['code']]}, KeyError : ['EV/EBITDA'] not in index")
             df_result = None
 
-        self.logger.info(f'Fnguide crawling complete')
+        self.logger.debug(f'Fnguide crawling complete')
         return df_result
