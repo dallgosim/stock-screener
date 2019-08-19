@@ -58,7 +58,7 @@ class Screener:
         X_real = xgb.DMatrix(x)
 
         pred_y = self.model.predict(X_real)
-        pred_y = np.asarray([np.argmax(line) for line in pred_y])[0]
+        pred_y = np.asarray([np.argmax(line) for line in pred_y])
         return pred_y
 
     def _recomm_item_crawl(self, date):
