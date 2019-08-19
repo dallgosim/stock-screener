@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
+import datetime
 import logging
+
+LOG_PATH = 'log'
 
 def init_logger(logger_name='logger'):
     logger = logging.getLogger(logger_name)
@@ -11,8 +15,21 @@ def init_logger(logger_name='logger'):
     ch.setFormatter(formatter)
     logger.addHandler(ch)
 
+    # dir
+    try:
+        os.makedirs(LOG_PATH)
+    except FileExistsError:
+        # directory already exists
+        pass
+
     # file
-    fh = logging.FileHandler(filename='./log/finance.log')
+    log_date = datetime.date.today().strftime('%Y%m%d')
+    file_name = f'./{LOG_PATH}/{log_date}.log'
+    if not os.path.exists(file_name):
+        with open(file_name, 'w') as f:
+            f.write('')
+
+    fh = logging.FileHandler(filename=file_name)
     fh.setFormatter(formatter)
     logger.addHandler(fh)
 
