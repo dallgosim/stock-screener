@@ -103,6 +103,5 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# model files
-models/
+# ignore my files
 output.pkl
