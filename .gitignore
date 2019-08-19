@@ -105,3 +105,4 @@ venv.bak/
 
 # model files
 models/
+output.pkl
