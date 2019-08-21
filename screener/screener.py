@@ -19,12 +19,12 @@ class Screener:
         if self.model is None:
             self.logger.error("The model is not exist. Please check your model name")
 
-    def get_recommend_stock(self, print_cols=['code', 'cmp_nm_kor', 'pred', 'reason_in']):
+    def get_recommend_stock(self, print_cols=['code', 'cmp_nm_kor', 'close', 'pred', 'reason_in']):
         today = datetime.date.today().strftime('%Y-%m-%d')
         in_df = self._recomm_item_crawl(today.replace('-', ''))
 
         if len(in_df) == 0:
-            self.logger.info("There are no recommended items in Naver today.")
+            self.logger.info("There are no recommended items today.")
             return None
 
         in_df = in_df.drop_duplicates(['cmp_cd'])
