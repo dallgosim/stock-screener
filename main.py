@@ -29,8 +29,8 @@ def hello_world():
     if recomm_df is None:
         recomm_html = "There are no recommended items today."
     else:
-        recomm_df['reason_in'] = recomm_df['reason_in'].apply(lambda x: x.replace('\r\n', '<br/>'))
         recomm_html = recomm_df.to_html(classes='table', header='true')
+        recomm_html = recomm_html.replace('\\r\\n', '<br/>')
 
     return render_template('metric_studio/index.html', recomm_df=recomm_html, today=today)
 
