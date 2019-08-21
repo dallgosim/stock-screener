@@ -16,23 +16,28 @@ def timed_job():
     print(f'Schedule job done : {datetime.datetime.now()}')
 sched.start()
 
-if not os.path.exists('output.pkl'):
-    scheduler.run_screener()
-
 # web server
 app = Flask(__name__)
 
 @app.route('/metric_studio', methods=['GET', 'POST'])
 def hello_world():
     today = datetime.date.today().strftime('%Y-%m-%d')
+    # load
     with open('output.pkl', 'rb') as f:
         recomm_df = pickle.load(f)
+
     if recomm_df is None:
         recomm_html = "There are no recommended items today."
     else:
-        recomm_html = recomm_df.to_html()
+        recomm_df['reason_in'].apply(lambda x: x.replace('\r\n', ' '))
+        recomm_html = recomm_df.to_html(classes='data', header='true')
+
     return render_template('metric_studio/index.html', recomm_df=recomm_html, today=today)
 
+
 if __name__ == '__main__':
+    if not os.path.exists('output.pkl'):
+        scheduler.run_screener()
+
     app.debug = True
     app.run(host='0.0.0.0', port=5000, debug=True)
