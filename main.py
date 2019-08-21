@@ -27,7 +27,11 @@ def hello_world():
     today = datetime.date.today().strftime('%Y-%m-%d')
     with open('output.pkl', 'rb') as f:
         recomm_df = pickle.load(f)
-    return render_template('metric_studio/index.html', recomm_df=recomm_df.to_html(), today=today)
+    if recomm_df is None:
+        recomm_html = "There are no recommended items today."
+    else:
+        recomm_html = recomm_df.to_html()
+    return render_template('metric_studio/index.html', recomm_df=recomm_html, today=today)
 
 if __name__ == '__main__':
     app.debug = True
