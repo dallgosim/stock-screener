@@ -6,7 +6,7 @@ import json
 import datetime
 import re
 from bs4 import BeautifulSoup
-from util import timer
+from util import timer, logger
 
 FINANCE_RATIO_URL = 'http://comp.fnguide.com/SVO2/ASP/SVD_FinanceRatio.asp'
 INVEST_URL = 'http://comp.fnguide.com/SVO2/ASP/SVD_Invest.asp'
@@ -24,8 +24,8 @@ class MetricCrawler:
         'stkGb': '701',
     }
 
-    def __init__(self, logger, delay=1):
-        self.logger = logger
+    def __init__(self, delay=1):
+        self.logger = logger.APP_LOGGER
         self.delay = delay
 
     def crawl_fnguide(self, cmp_cd):

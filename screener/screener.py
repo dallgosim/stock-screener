@@ -6,15 +6,13 @@ import xgboost as xgb
 import pickle
 
 from crawler import recommendation_item, stock_price, metric
-import util.logger
+from util import logger
 
 
 class Screener:
 
-    def __init__(self):
-        self.logger = util.logger.init_logger(__file__)
-
-        model_name = 'metricstudio_xgb_20190730_626'
+    def __init__(self, model_name):
+        self.logger = logger.APP_LOGGER
         self.model = self._load_model(model_name)
         if self.model is None:
             self.logger.error("The model is not exist. Please check your model name")
@@ -63,7 +61,7 @@ class Screener:
 
     def _recomm_item_crawl(self, date):
         self.logger.debug('=== item crawling start ===')
-        ri = recommendation_item.RecommendationItem(self.logger, delay=0.1)
+        ri = recommendation_item.RecommendationItem(delay=0.1)
         df = ri.crawl_daily_item(date, date)
         return df
 
@@ -78,7 +76,7 @@ class Screener:
         crawl 당기 EPS, CFPS, BPS, SPS, ROE, 자산총계
         '''
         self.logger.debug('=== fnguide crawling start ===')
-        sp = metric.MetricCrawler(self.logger, delay=0.1)
+        sp = metric.MetricCrawler(delay=0.1)
         df = sp.crawl_fnguide(company)
         return df
 

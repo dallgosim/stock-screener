@@ -5,7 +5,7 @@ import pandas as pd
 import json
 import datetime
 import time
-from util import timer
+from util import timer, logger
 
 RECOMM_URL = 'https://recommend.wisereport.co.kr/v1/Home/GetInOut'
 
@@ -33,8 +33,8 @@ class RecommendationItem:
         'proc': 1, #신규추천:1, 추천제외:2
     }
 
-    def __init__(self, logger, delay=1):
-        self.logger = logger
+    def __init__(self, delay=1):
+        self.logger = logger.APP_LOGGER
         self.delay = delay
 
     def __crawl(self, date, proc=1):

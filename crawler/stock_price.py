@@ -5,7 +5,7 @@ import pandas as pd
 import json
 from bs4 import BeautifulSoup
 import lxml
-from util import timer
+from util import timer, logger
 
 SISE_URL = 'https://finance.naver.com/item/sise_day.nhn?code={code}&page={page}'
 
@@ -14,8 +14,8 @@ class StockPrice:
         'date', 'close', 'diff', 'open', 'high', 'low', 'volume'
     ]
 
-    def __init__(self, logger, delay=1):
-        self.logger = logger
+    def __init__(self, delay=1):
+        self.logger = logger.APP_LOGGER
         self.delay = delay
 
     def __crawl_stock_price(self, stock_code, max_page=250):

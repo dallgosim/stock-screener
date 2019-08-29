@@ -4,6 +4,7 @@ import datetime
 import logging
 
 LOG_PATH = 'log'
+APP_LOGGER = init_logger()
 
 def init_logger(logger_name='logger'):
     logger = logging.getLogger(logger_name)
