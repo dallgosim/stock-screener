@@ -3,9 +3,9 @@
 import pandas as pd
 import argparse
 
-from crawler import stock_price_daily
+from crawler import stock_price_daily, metric_daily
 from util import mysql_controller
-from util import const
+from util import const, timer
 
 
 def get_company_list():
@@ -25,6 +25,18 @@ def test():
     
     sp.save_price(result_df)
     return
+
+def test1():
+    sp = metric_daily.MetricCrawler()
+    cmp_list = get_company_list()['cmp_cd'].values.tolist()
+
+    result_df = pd.DataFrame([])
+    for _cmp in cmp_list[:10]:
+        _df = sp.crawl_fnguide(_cmp[1:])
+        result_df = pd.concat([result_df, _df])
+    result_df['date'] = timer.get_now('%Y-%m-%d')
+    sp.save_price(result_df)
+    return
     
 
 def arg_parse():
@@ -42,7 +54,5 @@ def arg_parse():
 
 if __name__ == '__main__':
     arg_parse()
-    
-    cmp_list = ['005930', '012330']
 
-    test()
+    test1()
