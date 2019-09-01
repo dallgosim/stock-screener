@@ -67,7 +67,7 @@ class StockPrice:
 
         stock_df = stock_df.loc[stock_df['date']==date]
         stock_df['code'] = cmp_cd
-        self.logger.debug(f'''{cmp_cd}'s price length : {(len(stock_df))}''')
+        self.logger.debug(f'''crawl_price {cmp_cd}: {(len(stock_df))}''')
         return stock_df
     
     def save_price(self, price_df):
