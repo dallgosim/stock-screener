@@ -68,7 +68,10 @@ class MysqlController:
                 try:
                     row.to_sql(name=table, con=self.engine, index=index, if_exists='append')
                 except IntegrityError as e:
-                    logger.debug(f'Duplicated Row ({table}) : {e.args[0]}')
+                    # logger.debug(f'Duplicated Row ({table}) : {e.args[0]}')
+                    pass
+                except Exception as e:
+                    logger.error(f'Insert(In duplicated) Datarame Error ({table}) : {e}')
         except Exception as e:
             logger.error(f'Insert Datarame Error ({table}) : {e}')
 
