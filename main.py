@@ -15,6 +15,7 @@ weekday = 'mon-fri'
 sched = BackgroundScheduler({'apscheduler.timezone': 'Asia/Seoul'})
 sched.add_job(scheduler.run_screener, 'cron', day_of_week=weekday, hour='9')
 sched.add_job(scheduler.crawl_daily_price, 'cron', day_of_week=weekday, hour='23')
+sched.add_job(scheduler.crawl_daily_metric, 'cron', day_of_week=weekday, hour='22')
 sched.start()
 
 # web server

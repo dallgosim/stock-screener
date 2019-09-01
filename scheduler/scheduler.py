@@ -4,7 +4,7 @@ import pandas as pd
 import datetime
 
 from screener import screener
-from crawler import stock_price_daily
+from crawler import stock_price_daily, metric_daily
 from util import const, mysql_controller, timer
 
 
@@ -31,3 +31,15 @@ def crawl_daily_price():
         result_df = pd.concat([result_df, _df])    
     sp.save_price(result_df)
     print(f'crawl_daily_price job done : {datetime.datetime.now()}')
+
+def crawl_daily_metric():
+    sp = metric_daily.MetricCrawler()
+    cmp_list = get_company_list()['cmp_cd'].values.tolist()
+
+    result_df = pd.DataFrame([])
+    for _cmp in cmp_list:
+        _df = sp.crawl_fnguide(_cmp[1:])
+        result_df = pd.concat([result_df, _df])
+    result_df['date'] = timer.get_now('%Y-%m-%d')
+    sp.save_price(result_df)
+    print(f'crawl_daily_metric job done : {datetime.datetime.now()}')

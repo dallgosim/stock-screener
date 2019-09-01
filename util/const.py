@@ -12,3 +12,4 @@ MYSQL_PASSWD = None
 
 COMPANY_LIST_TABLE = 'company_list'
 PRICE_TABLE = 'stock_price'
+METRIC_TABLE = 'metric'
