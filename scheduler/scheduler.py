@@ -17,7 +17,7 @@ def run_screener():
 
 def get_company_list():
     _mysql = mysql_controller.MysqlController()
-    query = f'''SELECT cmp_cd FROM {const.COMPANY_LIST_TABLE};'''
+    query = f'''SELECT distinct cmp_cd FROM {const.COMPANY_LIST_TABLE};'''
     return _mysql.select_dataframe(query)
 
 def crawl_daily_price():
