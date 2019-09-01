@@ -59,7 +59,6 @@ class MysqlController:
         return df
 
     def insert_dataframe(self, df, table, index=False):
-        err_cnt = False
         try:
             df.to_sql(name=table, con=self.engine, index=index, if_exists='append')
             logger.info(f'Insert Datarame into {table} : {len(df)}')
