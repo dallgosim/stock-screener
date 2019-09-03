@@ -67,7 +67,7 @@ class Screener:
 
     def _price_crawl(self, company, date=None):
         self.logger.debug('=== price crawling start ===')
-        sp = stock_price.StockPrice(self.logger, delay=0.2)
+        sp = stock_price.StockPrice(delay=0.2)
         df = sp.crawl_price(company, date)
         return df
 
