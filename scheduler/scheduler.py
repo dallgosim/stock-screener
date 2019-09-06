@@ -4,7 +4,7 @@ import pandas as pd
 import datetime
 
 from screener import screener
-from crawler import stock_price_daily, metric_daily
+from crawler import stock_price_daily, metric_daily, recommendation_item_daily
 from util import const, mysql_controller, timer
 
 
@@ -43,3 +43,16 @@ def crawl_daily_metric():
     result_df['date'] = timer.get_now('%Y-%m-%d')
     sp.save_price(result_df)
     print(f'crawl_daily_metric job done : {datetime.datetime.now()}')
+
+def crawl_daily_inout():
+    today = timer.get_now('%Y%m%d')
+    ri = recommendation_item_daily.RecommendationItem()
+
+    # in
+    result_df = ri.crawl_daily_item(today, today, 1)
+    ri.save_price(result_df, const.NAVER_IN_TABLE)
+
+    # out
+    result_df = ri.crawl_daily_item(today, today, 2)
+    ri.save_price(result_df, const.NAVER_OUT_TABLE)
+    print(f'crawl_daily_in/out job done : {datetime.datetime.now()}')

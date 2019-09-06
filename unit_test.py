@@ -6,7 +6,7 @@ import pickle
 import datetime
 
 from screener import screener
-from crawler import stock_price, stock_price_daily, metric_daily
+from crawler import stock_price, stock_price_daily, metric_daily, recommendation_item_daily
 from util import mysql_controller
 from util import const, timer
 
@@ -48,6 +48,19 @@ def test2():
     result_df['date'] = timer.get_now('%Y-%m-%d')
     sp.save_price(result_df)
     return
+
+
+def test3():
+    ri = recommendation_item_daily.RecommendationItem()
+
+    # in
+    result_df = ri.crawl_daily_item('20190829', '20190829', 1)
+    ri.save_price(result_df, const.NAVER_IN_TABLE)
+
+    # out
+    result_df = ri.crawl_daily_item('20190829', '20190829', 2)
+    ri.save_price(result_df, const.NAVER_OUT_TABLE)
+    return
     
 
 def arg_parse():
@@ -66,4 +79,4 @@ def arg_parse():
 if __name__ == '__main__':
     arg_parse()
 
-    test()
+    test3()
