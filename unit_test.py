@@ -2,8 +2,11 @@
 
 import pandas as pd
 import argparse
+import pickle
+import datetime
 
-from crawler import stock_price_daily, metric_daily
+from screener import screener
+from crawler import stock_price, stock_price_daily, metric_daily
 from util import mysql_controller
 from util import const, timer
 
@@ -15,6 +18,14 @@ def get_company_list():
 
 
 def test():
+    scnr = screener.Screener(const.MODEL_NAME)
+    result_df = scnr.get_recommend_stock()
+    with open('output.pkl', 'wb') as f:
+        pickle.dump(result_df, f)
+    print(f'run_screener job done : {datetime.datetime.now()}')
+    return
+
+def test1():
     sp = stock_price_daily.StockPrice()
     cmp_list = get_company_list()['cmp_cd'].values.tolist()
 
@@ -26,7 +37,7 @@ def test():
     sp.save_price(result_df)
     return
 
-def test1():
+def test2():
     sp = metric_daily.MetricCrawler()
     cmp_list = get_company_list()['cmp_cd'].values.tolist()
 
@@ -55,4 +66,4 @@ def arg_parse():
 if __name__ == '__main__':
     arg_parse()
 
-    test1()
+    test()
