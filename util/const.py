@@ -13,3 +13,5 @@ MYSQL_PASSWD = None
 COMPANY_LIST_TABLE = 'company_list'
 PRICE_TABLE = 'stock_price'
 METRIC_TABLE = 'metric'
+NAVER_IN_TABLE = 'naver_in_items'
+NAVER_OUT_TABLE = 'naver_out_items'
