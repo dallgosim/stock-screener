@@ -2,7 +2,7 @@
 import os
 
 # model
-MODEL_NAME = 'metricstudio_xgb_20190730_626'
+MODEL_NAME = 'metricstudio_xgb_20190816_kospi'
 
 # mysql
 MYSQL_SVR = 'supermaria.cnxi7kgfk7nz.ap-northeast-2.rds.amazonaws.com'

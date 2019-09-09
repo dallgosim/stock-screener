@@ -32,7 +32,7 @@ def arg_parse():
                         help='MariaDB password', required=True)
     parser.add_argument('--model', dest='MODEL_NAME', type=str,
                         help='Name of model for prediction',
-                        default='metricstudio_xgb_20190816_kospi.pkl')
+                        default='metricstudio_xgb_20190816_kospi')
     args = parser.parse_args()
 
     const.MODEL_NAME = args.MODEL_NAME
