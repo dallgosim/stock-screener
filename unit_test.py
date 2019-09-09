@@ -52,13 +52,14 @@ def test2():
 
 def test3():
     ri = recommendation_item_daily.RecommendationItem()
+    date = '20190906'
 
     # in
-    result_df = ri.crawl_daily_item('20190829', '20190829', 1)
+    result_df = ri.crawl_daily_item(date, date, 1)
     ri.save_price(result_df, const.NAVER_IN_TABLE)
 
     # out
-    result_df = ri.crawl_daily_item('20190829', '20190829', 2)
+    result_df = ri.crawl_daily_item(date, date, 2)
     ri.save_price(result_df, const.NAVER_OUT_TABLE)
     return
     
@@ -79,4 +80,4 @@ def arg_parse():
 if __name__ == '__main__':
     arg_parse()
 
-    test3()
+    test()
