@@ -12,7 +12,6 @@ def hello_world():
     if recomm_df is None:
         recomm_html = "There are no recommended items today."
     else:
-        recomm_df['link'] = recomm_df['code'].apply(lambda x: f'<#atag# href=http://finance.daum.net/quotes/A{x}>link</#atag#>')
         recomm_html = recomm_df.to_html(classes='table', header='true')
         recomm_html = recomm_html.replace('\\r\\n', '<br/>')
 
