@@ -82,8 +82,10 @@ class RecommendationItem:
             _df = pd.concat([_df, self.__crawl(curr, proc)])
             i += 1
 
-        _df = _df[self.in_cols] if proc==1 else _df[self.out_cols]
+        if len(_df) > 0:
+            _df = _df[self.in_cols] if proc==1 else _df[self.out_cols]
         return _df
 
     def save_price(self, recom_df, table):
-        self.mysql.insert_dataframe(recom_df, table)
+        if len(recom_df) > 0:
+            self.mysql.insert_dataframe(recom_df, table)
