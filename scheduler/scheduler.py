@@ -56,3 +56,21 @@ def crawl_daily_inout():
     result_df = ri.crawl_daily_item(today, today, 2)
     ri.save_price(result_df, const.NAVER_OUT_TABLE)
     print(f'crawl_daily_in/out job done : {datetime.datetime.now()}')
+
+def infer_model():
+    scnr = screener.Screener(const.MODEL_NAME)
+    recom_df = scnr.daily_recommend_stock(print_cols=['cmp_cd', 'close', 'pos', 'neg', 'pred', 'model', 'date'])
+    if recom_df is not None:
+        scnr.save_items(recom_df, const.MODEL_RECOMMEND_TABLE)
+    print(f'infer model job done : {datetime.datetime.now()}')
+
+def test():
+    # 현재 추천종목만 보기
+    '''SELECT t1.*
+        FROM naver_in_items t1
+        LEFT JOIN naver_out_items t2
+        ON
+            t1.cmp_cd = t2.cmp_cd
+            AND t1.brk_cd = t2.brk_cd
+            AND t1.pf_cd = t2.pf_cd
+        WHERE t2.cmp_cd IS NULL;'''

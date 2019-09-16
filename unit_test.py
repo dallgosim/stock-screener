@@ -62,7 +62,15 @@ def test3():
     result_df = ri.crawl_daily_item(date, date, 2)
     ri.save_price(result_df, const.NAVER_OUT_TABLE)
     return
-    
+
+def test4():
+    scnr = screener.Screener(const.MODEL_NAME)
+    recom_df = scnr.daily_recommend_stock(print_cols=['cmp_cd', 'close', 'pos', 'neg', 'pred', 'model', 'date'])
+    if recom_df is not None:
+        scnr.save_items(recom_df, const.MODEL_RECOMMEND_TABLE)
+    print(f'infer model job done : {datetime.datetime.now()}')
+    return
+
 
 def arg_parse():
     parser = argparse.ArgumentParser()
@@ -80,4 +88,4 @@ def arg_parse():
 if __name__ == '__main__':
     arg_parse()
 
-    test()
+    test4()
