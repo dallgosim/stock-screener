@@ -5,12 +5,12 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy import create_engine
 from util import const, logger
 
-logger = logger.init_logger(__file__)
 
 class MysqlController:
 
     def __init__(self):
         # MySQL Connection 연결
+        self.logger = logger.APP_LOGGER
         self.conn = pymysql.connect(host=const.MYSQL_SVR,
                                     user=const.MYSQL_USER,
                                     password=const.MYSQL_PASSWD,
@@ -55,13 +55,13 @@ class MysqlController:
 
     def select_dataframe(self, query):
         df = pd.read_sql(query, self.engine)
-        logger.info(f'Select Datarame : {query}')
+        self.logger.info(f'Select Datarame : {query}')
         return df
 
     def insert_dataframe(self, df, table, index=False):
         try:
             df.to_sql(name=table, con=self.engine, index=index, if_exists='append')
-            logger.info(f'Insert Datarame into {table} : {len(df)}')
+            self.logger.info(f'Insert Datarame into {table} : {len(df)}')
         except IntegrityError as e:
             for i in range(len(df)):
                 row = df.iloc[[i]]
@@ -73,5 +73,5 @@ class MysqlController:
                 except Exception as e:
                     logger.error(f'Insert(In duplicated) Datarame Error ({table}) : {e}')
         except Exception as e:
-            logger.error(f'Insert Datarame Error ({table}) : {e}')
+            self.logger.error(f'Insert Datarame Error ({table}) : {e}')
 
