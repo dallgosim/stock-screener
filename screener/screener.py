@@ -54,12 +54,25 @@ class Screener:
         result_df['pred'], _, _ = self.predict_stock(result_df)
         return result_df[print_cols]
 
-    def daily_recommend_stock(self, print_cols):
-        today = timer.get_now('%Y-%m-%d')
-
-        # 데이터 가져와서
-        _mysql = mysql_controller.MysqlController()
-        query = f'''
+    def daily_recommend_stock(self, print_cols, today=None):
+        if today is None:
+            query = '''
+            SELECT t3.cmp_nm_kor as cmp_nm_kor, m1.*
+            FROM
+                company_list t3, (SELECT t1.*, t2.close
+                FROM metric t1, stock_price t2
+                WHERE
+                    t1.cmp_cd=t2.cmp_cd
+                    AND t1.date=t2.date
+                    AND t1.date=(SELECT date
+											FROM metric
+											ORDER BY date DESC
+											LIMIT 1)) m1
+            WHERE
+                right(t3.cmp_cd,6)=m1.cmp_cd;
+            '''
+        else:
+            query = f'''
             SELECT t3.cmp_nm_kor as cmp_nm_kor, m1.*
             FROM
                 company_list t3, (SELECT t1.*, t2.close
@@ -70,7 +83,11 @@ class Screener:
                     AND t1.date="{today}") m1
             WHERE
                 right(t3.cmp_cd,6)=m1.cmp_cd;
-        '''
+            '''
+            
+
+        # 데이터 가져와서
+        _mysql = mysql_controller.MysqlController()
         metric_df = _mysql.select_dataframe(query)
         if len(metric_df) == 0:
             return None

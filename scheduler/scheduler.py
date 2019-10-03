@@ -59,7 +59,8 @@ def crawl_daily_inout():
 
 def infer_model():
     scnr = screener.Screener(const.MODEL_NAME)
-    recom_df = scnr.daily_recommend_stock(print_cols=['cmp_cd', 'close', 'pos', 'neg', 'pred', 'model', 'date'])
+    cols = ['cmp_cd', 'close', 'pos', 'neg', 'pred', 'model', 'date']
+    recom_df = scnr.daily_recommend_stock(print_cols=cols)
     if recom_df is not None:
         scnr.save_items(recom_df, const.MODEL_RECOMMEND_TABLE)
     print(f'infer model job done : {datetime.datetime.now()}')
