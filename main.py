@@ -22,7 +22,8 @@ sched.start()
 
 # web server
 app = Flask(__name__)
-app.add_url_rule('/metric_studio', view_func=web.hello_world, methods=['GET'])
+# app.add_url_rule('/metric_studio', view_func=web.hello_world, methods=['GET'])
+app.add_url_rule('/metric_studio', view_func=web.get_recom_list, methods=['GET'])
 
 
 def arg_parse():
