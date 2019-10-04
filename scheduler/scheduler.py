@@ -14,6 +14,7 @@ def run_screener():
     with open('output.pkl', 'wb') as f:
         pickle.dump(result_df, f)
     print(f'run_screener job done : {datetime.datetime.now()}')
+    infer_model()
 
 def get_company_list():
     _mysql = mysql_controller.MysqlController()
