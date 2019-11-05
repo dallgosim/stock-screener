@@ -71,7 +71,7 @@ class MysqlController:
                     # logger.debug(f'Duplicated Row ({table}) : {e.args[0]}')
                     pass
                 except Exception as e:
-                    logger.error(f'Insert(In duplicated) Datarame Error ({table}) : {e}')
+                    self.logger.error(f'Insert(In duplicated) Datarame Error ({table}) : {e}')
         except Exception as e:
             self.logger.error(f'Insert Datarame Error ({table}) : {e}')
 
