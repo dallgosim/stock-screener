@@ -37,7 +37,7 @@ def get_recom_list():
                 stock_price as tt2
             WHERE tt1.cmp_cd=tt2.cmp_cd
                 AND tt1.in_dt=tt2.date) ttt1,
-        recommended_items ttt2
+        (SELECT distinct * FROM recommended_items) ttt2
     WHERE
         ttt1.cmp_cd=ttt2.cmp_cd
         AND ttt1.in_dt=ttt2.date
