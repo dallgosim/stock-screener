@@ -20,15 +20,15 @@ def hello_world():
     return render_template('metric_studio/index.html', recomm_df=recomm_html, today=today)
 
 def get_recom_list():
-    query = '''
+    query = f'''
     SELECT ttt1.*, ROUND(ttt2.pos, 3) as pos, ROUND(ttt2.neg, 3) as neg, ttt2.pred
     FROM
         (SELECT tt1.*, tt2.open as price
         FROM
             (SELECT t1.cmp_cd, t1.cmp_nm_kor, t1.brk_nm_kor, t1.pf_nm_kor,
                     t1.in_dt, t1.reason_in
-                    FROM naver_in_items t1
-                    LEFT JOIN naver_out_items t2
+                    FROM {const.NAVER_IN_TABLE} t1
+                    LEFT JOIN {const.NAVER_OUT_TABLE} t2
                     ON
                         t1.cmp_cd = t2.cmp_cd
                         AND t1.brk_cd = t2.brk_cd
@@ -37,7 +37,7 @@ def get_recom_list():
                 stock_price as tt2
             WHERE tt1.cmp_cd=tt2.cmp_cd
                 AND tt1.in_dt=tt2.date) ttt1,
-        (SELECT distinct * FROM recommended_items) ttt2
+        (SELECT distinct * FROM {const.MODEL_RECOMMEND_TABLE}) ttt2
     WHERE
         ttt1.cmp_cd=ttt2.cmp_cd
         AND ttt1.in_dt=ttt2.date
